@@ -168,7 +168,7 @@ var SafeMarkdown = Markdown.extend({
         the[_mentionList] = [];
         the[_headingLevelIdList] = [0, 0, 0, 0, 0, 0];
         the[_headingLevelIndentList] = [0, 0, 0, 0, 0, 0];
-        the[_headingTocParentList] =  [{
+        the[_headingTocParentList] = [{
             children: the[_headingTocList]
         }];
         the[_lastHeadingLevel] = 0;
@@ -215,11 +215,13 @@ SafeMarkdown.method(_renderToc, function (tocList) {
         var after = '</ul>';
 
         array.each(list, function (index, item) {
-            var flag = tocClass + '-' + item.id;
+            var flag = options.headingClass + '-' + item.id;
             before = before || '<ul class="' + tocClass + '-' + item.level + '">';
-            main += '<li id="' + flag + '">';
+            main += '<li class="' + tocClass + '-' + item.level + '-' + (index + 1) + '">';
+            main += '<a href="#' + flag + '">';
             main += '<span class="' + tocIndexesClass + '">' + item.indexesText + '</span>';
             main += '<span class="' + tocTextClass + '">' + item.headingText + '</span>';
+            main += '</a>';
 
             if (item.children.length) {
                 main += eachChildren(item.children);
@@ -264,7 +266,7 @@ SafeMarkdown.method(_heading, function () {
         var headingLevelIdList = the[_headingLevelIdList];
         // 每一级向前缩进值
         var headingLevelIndentList = the[_headingLevelIndentList];
-        var headingTocParentList =the[_headingTocParentList];
+        var headingTocParentList = the[_headingTocParentList];
 
 
         if (the[_headingStartIndent] === -1) {
@@ -309,11 +311,12 @@ SafeMarkdown.method(_heading, function () {
         var html = '';
         var delta = options.hadingMinLevel - 1;
         var displayLevel = fixedLevel + delta;
+        var flag = headingClass + '-' + id;
 
         displayLevel = Math.min(displayLevel, 6);
 
-        html += '<h' + displayLevel + ' id="' + headingClass + '-' + id + '" class="' + headingClass + ' ' + headingClass + '-h' + fixedLevel + '">';
-        html += headingLinkable ? '<a href="#' + id + '" class="' + headingLinkClass + '">' : '';
+        html += '<h' + displayLevel + ' id="' + flag + '" class="' + headingClass + ' ' + headingClass + '-' + fixedLevel + '">';
+        html += headingLinkable ? '<a href="#' + flag + '" class="' + headingLinkClass + '">' : '';
         html += options.headingIndexable ? '<span class="' + headingIndexClass + '">' + indexesText + '</span>' : '';
         html += '<span class="' + headingTextClass + '">' + headingText + "</span>";
         html += headingLinkable ? '</a>' : '';
