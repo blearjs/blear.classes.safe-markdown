@@ -83,9 +83,9 @@ describe('测试文件', function () {
     });
 
 
-    it('trustedDomain', function () {
+    it('linkTrustedDomains', function () {
         var sm = new SafeMarkdown({
-            trustedDomains: [
+            linkTrustedDomains: [
                 'a.com',
                 'b.com'
             ]

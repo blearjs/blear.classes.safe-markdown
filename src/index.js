@@ -96,7 +96,19 @@ var defaults = object.assign({}, Markdown.defaults, {
      * link 信赖的域名列表
      * @type Array
      */
-    trustedDomains: [],
+    linkTrustedDomains: [],
+
+    /**
+     * 是否输出 link 的 favicon
+     * @type Boolean
+     */
+    linkFaviconable: true,
+
+    /**
+     * link favicon 的图标 class
+     * @type String
+     */
+    linkFaviconClass: 'favicon',
 
     /**
      * 是否进行 xss 防御
@@ -358,10 +370,10 @@ SafeMarkdown.method(_link, function () {
     var options = the[_options];
     var reHash = /^#/;
     var reJavascript = /^javascript:/i;
-    var trustedDomains = options.trustedDomains;
+    var linkTrustedDomains = options.linkTrustedDomains;
     var regExpList = [];
 
-    array.each(trustedDomains, function (index, domain) {
+    array.each(linkTrustedDomains, function (index, domain) {
         regExpList.push('([^.]*\\.)*' + domain);
     });
 
@@ -370,10 +382,11 @@ SafeMarkdown.method(_link, function () {
     the.renderer('link', function (href, title, text) {
         var blank = false;
         var nofollow = false;
+        var hostname;
 
         if (!reHash.test(href) && !reJavascript.test(href)) {
             var ret = url.parse(href);
-            var hostname = ret.hostname;
+            hostname = ret.hostname;
 
             if (hostname && !reExcludeDomain.test(hostname)) {
                 nofollow = true;
@@ -388,6 +401,7 @@ SafeMarkdown.method(_link, function () {
             nofollow ? ' rel="nofollow"' : '',
             blank ? ' target="blank"' : '',
             '>',
+            options.linkFaviconable && hostname ? '<img class="' + options.linkFaviconClass + '" width="16" height="16" src="https://f.ydr.me/' + href + '">' : '',
             text || href,
             '</a>'
         );
