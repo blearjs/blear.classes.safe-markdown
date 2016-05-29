@@ -10,6 +10,7 @@ var object = require('blear.utils.object');
 var array = require('blear.utils.array');
 var string = require('blear.utils.string');
 var url = require('blear.utils.url');
+var random = require('blear.utils.random');
 var xss = require('xss');
 
 
@@ -201,6 +202,25 @@ var _lastHeadingLevelIndex = SafeMarkdown.sole();
 var _headingStartIndent = SafeMarkdown.sole();
 
 
+var storeGen = function () {
+    var store = {};
+
+    return {
+        save: function (val) {
+            var key = 'ø' + random.guid() + 'ø';
+            store[key] = val;
+            return key;
+        },
+        restore: function (broken) {
+            object.each(store, function (key, val) {
+                broken = broken.replace(key, val);
+            });
+            return broken;
+        }
+    };
+};
+
+
 SafeMarkdown.method(_renderToc, function (tocList) {
     var the = this;
     var options = the[_options];
@@ -341,6 +361,7 @@ SafeMarkdown.method(_paragraph, function () {
     var the = this;
     var options = the[_options];
     var nameRegExpString = options.mentionNameRegExp.toString().slice(1, -1);
+    var reHTML = /<([a-z][a-z\d-]*)((\s+[\w:.@$-]+(\s*=\s*(?:"[\s\S]*?"|'[\s\S]*?'|[^'">\s]+))?)+\s*|\s*)(\/\s*)?>/gi;
 
     nameRegExpString = nameRegExpString
         .replace(/^\^/, '')
@@ -352,8 +373,11 @@ SafeMarkdown.method(_paragraph, function () {
     the.renderer('paragraph', function (text) {
         var before = '<p>';
         var after = '</p>';
+        var store = storeGen();
 
         if (options.mentionable) {
+            // 不处理标签里的属性相关
+            text = text.replace(reHTML, store.save);
             text = text.replace(reMention, function (source, name) {
                 var href = string.assign(options.mentionLink, {
                     name: name
@@ -367,6 +391,7 @@ SafeMarkdown.method(_paragraph, function () {
                     'class="' + options.mentionClass +
                     '">@' + name + '</a>';
             });
+            text = store.restore(text);
         }
 
         return before + text + after;
