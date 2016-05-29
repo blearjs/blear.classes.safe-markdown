@@ -1,0 +1,295 @@
+<style>.heading-index{background: #000;color:#fff;margin-right:20px;}</style><div class="toc"><ul class="toc-1"><li id="toc-1"><span class="toc-index">1</span><span class="toc-text">下载 <img src="bb" alt="aa"></span></li><li id="toc-2"><span class="toc-index">2</span><span class="toc-text">资源模块</span></li><li id="toc-3"><span class="toc-index">3</span><span class="toc-text">demo</span><ul class="toc-2"><li id="toc-3-1"><span class="toc-index">3.1</span><span class="toc-text">初始化目录结构</span></li><li id="toc-3-2"><span class="toc-index">3.2</span><span class="toc-text">初始化文件</span><ul class="toc-3"><li id="toc-3-2-1"><span class="toc-index">3.2.1</span><span class="toc-text">style.css</span></li><li id="toc-3-2-2"><span class="toc-index">3.2.2</span><span class="toc-text">template.html</span></li><li id="toc-3-2-3"><span class="toc-index">3.2.3</span><span class="toc-text">index.js</span></li><li id="toc-3-2-4"><span class="toc-index">3.2.4</span><span class="toc-text">package.json</span></li><li id="toc-3-2-5"><span class="toc-index">3.2.5</span><span class="toc-text">coolie.js</span></li><li id="toc-3-2-6"><span class="toc-index">3.2.6</span><span class="toc-text">coolie-config.js</span></li><li id="toc-3-2-7"><span class="toc-index">3.2.7</span><span class="toc-text">index.html</span></li></ul></li><li id="toc-3-3"><span class="toc-index">3.3</span><span class="toc-text">前端构建前运行</span></li><li id="toc-3-4"><span class="toc-index">3.4</span><span class="toc-text">前端构建配置</span></li><li id="toc-3-5"><span class="toc-index">3.5</span><span class="toc-text">前端构建</span></li><li id="toc-3-6"><span class="toc-index">3.6</span><span class="toc-text">前端构建后运行</span></li><li id="toc-3-7"><span class="toc-index">3.7</span><span class="toc-text">分析构建结果</span><ul class="toc-3"><li id="toc-3-7-1"><span class="toc-index">3.7.1</span><span class="toc-text">coolie-map.json</span></li><li id="toc-3-7-2"><span class="toc-index">3.7.2</span><span class="toc-text">index.html</span></li></ul></li></ul></li><li id="toc-4"><span class="toc-index">4</span><span class="toc-text">github</span></li></ul></div><h2 id="heading-1" class="heading heading-h1"><a href="#1" class="heading-link"><span class="heading-index">1</span><span class="heading-text">下载 <img src="bb" alt="aa"></span></a></h2><p>使用 coolie demo 命令下载本 demo。</p>
+<pre><code>➜ coolie demo 8
+</code></pre><h2 id="heading-2" class="heading heading-h1"><a href="#2" class="heading-link"><span class="heading-index">2</span><span class="heading-text">资源模块</span></a></h2><p>资源模块指的是图片、样式、html片段等非脚本模块（在 coolie 的世界里，一切皆是模块）。</p>
+<p>使用方法：</p>
+<pre><code>require(&#39;style.css&#39;);
+</code></pre><p><a href="/introduction/module-type.md">coolie 支持的模块类型</a>。</p>
+<h2 id="heading-3" class="heading heading-h1"><a href="#3" class="heading-link"><span class="heading-index">3</span><span class="heading-text">demo</span></a></h2><h3 id="heading-3-1" class="heading heading-h2"><a href="#3-1" class="heading-link"><span class="heading-index">3.1</span><span class="heading-text">初始化目录结构</span></a></h3><p>新建<code>coolie-demo8</code>目录：</p>
+<pre><code>coolie-demo8
+└── webroot-dev
+
+1 directory, 0 files
+</code></pre><h3 id="heading-3-2" class="heading heading-h2"><a href="#3-2" class="heading-link"><span class="heading-index">3.2</span><span class="heading-text">初始化文件</span></a></h3><p>准备一张图片<code>coolie.png</code>，放在 webroot-dev 目录下。</p>
+<h4 id="heading-3-2-1" class="heading heading-h3"><a href="#3-2-1" class="heading-link"><span class="heading-index">3.2.1</span><span class="heading-text">style.css</span></a></h4><p>然后在 webroot-dev 目录下新建<code>style.css</code>：</p>
+<pre><code>body{
+    background: url(coolie.png);
+    color: #AF00FF;
+    font-size: 60px;
+}
+</code></pre><h4 id="heading-3-2-2" class="heading heading-h3"><a href="#3-2-2" class="heading-link"><span class="heading-index">3.2.2</span><span class="heading-text">template.html</span></a></h4><p>然后继续在 webroot-dev 目录下新建<code>template.html</code>：</p>
+<pre><code>&lt;h1&gt;Hello coolie&lt;/h1&gt;
+</code></pre><h4 id="heading-3-2-3" class="heading heading-h3"><a href="#3-2-3" class="heading-link"><span class="heading-index">3.2.3</span><span class="heading-text">index.js</span></a></h4><p>然后在 webroot-dev 目录下新建入口模块<code>index.js</code>：</p>
+<pre><code>// 引入样式文件模块，并自动插入到 style 标签里
+require(&#39;./style.css&#39;, &#39;css|style&#39;);
+
+// 在文档里插入 html 片段
+document.getElementById(&#39;demo&#39;).innerHTML = require(&#39;./template.html&#39;);
+</code></pre><h4 id="heading-3-2-4" class="heading heading-h3"><a href="#3-2-4" class="heading-link"><span class="heading-index">3.2.4</span><span class="heading-text">package.json</span></a></h4><p>新建 <code>package.json</code>:</p>
+<pre><code>{
+  &quot;name&quot;: &quot;coolie-demo8-webroot&quot;,
+  &quot;version&quot;: &quot;2.0.0&quot;
+}
+</code></pre><h4 id="heading-3-2-5" class="heading heading-h3"><a href="#3-2-5" class="heading-link"><span class="heading-index">3.2.5</span><span class="heading-text">coolie.js</span></a></h4><p>使用命令下载模块加载器：</p>
+<pre><code>➜  npm install --save coolie.js
+
+coolie.js@2.0.8 node_modules/coolie.js
+</code></pre><h4 id="heading-3-2-6" class="heading heading-h3"><a href="#3-2-6" class="heading-link"><span class="heading-index">3.2.6</span><span class="heading-text">coolie-config.js</span></a></h4><p>再写模块加载器配置文件，使用命令生成配置文件（<code>coolie-config.js</code>）：</p>
+<pre><code>➜  coolie init -j
+
+┌────────────────────────────────────┐
+│ coolie-cli                         │
+│ coolie@1.6.4                       │
+│ The front-end development builder. │
+└────────────────────────────────────┘
+
+        init success &gt;&gt; /coolie-demo6/src/coolie-config.js
+</code></pre><p>修改其内容为：</p>
+<pre><code>/**
+ * ======================================================
+ * coolie.js 配置文件 `coolie-config.js`
+ * 使用 `coolie init -j` 生成 `coolie-config.js` 文件模板
+ * 前端模块加载器配置文件
+ *
+ * @link http://coolie.ydr.me/guide/coolie-config.js/
+ * @author ydr.me
+ * @version 2.0.0
+ * @create 2016-05-28 20:34:17
+ * ======================================================
+ */
+
+coolie.config({
+    // 模块模式，开发环境为 COMMONJS
+    mode: &#39;CJS&#39;,
+
+    // 入口模块基准路径，相对于当前文件
+    mainModulesDir: &#39;/&#39;,
+
+    // node_modules 目录指向，相对于 mainModulesDir
+    nodeModulesDir: &#39;/node_modules/&#39;,
+
+    // 手动指定 node 模块的入口文件，此时将不会去加载模块的 package.json
+    // 除非你非常肯定，你加载的 node 模块的入口路径都是一致的
+    // 否则不要修改配置此项
+    // nodeModuleMainPath: &#39;src/index.js&#39;,
+
+    // 是否为调试模式，构建之后会修改为 false
+    debug: true,
+
+    // 全局变量，用于模块构建的预定义变量判断压缩
+    global: {}
+}).use();
+</code></pre><p>主要修改了<code>base</code>值，使入口模块基准路径指向当前文件所在的目录。</p>
+<h4 id="heading-3-2-7" class="heading heading-h3"><a href="#3-2-7" class="heading-link"><span class="heading-index">3.2.7</span><span class="heading-text">index.html</span></a></h4><p>最后写<code>index.html</code>：</p>
+<pre><code>&lt;!doctype html&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;div id=&quot;demo&quot;&gt;&lt;/div&gt;
+
+&lt;script src=&quot;/node_modules/coolie.js/coolie.js&quot;
+        coolie
+        data-config=&quot;/coolie-config.js&quot;
+        data-main=&quot;index.js&quot;&gt;&lt;/script&gt;
+</code></pre><h3 id="heading-3-3" class="heading heading-h2"><a href="#3-3" class="heading-link"><span class="heading-index">3.3</span><span class="heading-text">前端构建前运行</span></a></h3><p>在<code>src</code>目录下，使用<a href="https://www.npmjs.com/package/sts">sts</a>执行：</p>
+<pre><code>➜  sts
+                 sts &gt;&gt; A static server is running.
+                open &gt;&gt; http://192.168.0.156:60880
+</code></pre><p><img src="https://dn-fed.qbox.me/@/res/20160126210848618401171152 =720x346" alt=""></p>
+<h3 id="heading-3-4" class="heading heading-h2"><a href="#3-4" class="heading-link"><span class="heading-index">3.4</span><span class="heading-text">前端构建配置</span></a></h3><p>使用命令生成前端构建配置文件：</p>
+<pre><code>➜  coolie init -c
+
+┌────────────────────────────────────┐
+│ coolie-cli                         │
+│ coolie@1.6.4                       │
+│ The front-end development builder. │
+└────────────────────────────────────┘
+
+        init success &gt;&gt; /coolie-demo8/src/coolie.config.js
+</code></pre><p>修改配置文件（<code>coolie.config.js</code>）为：</p>
+<pre><code>/**
+ * ======================================================
+ * coolie-cli 配置文件 `coolie.config.js`
+ * 使用 `coolie init -c` 生成 `coolie.config.js` 文件模板
+ * 当前配置文件所在的目录为构建的根目录
+ *
+ * @link http://coolie.ydr.me/guide/coolie.config.js/
+ * @author ydr.me
+ * @version 1.6.4
+ * @create 2016-01-26 20:59:40
+ * =======================================================
+ */
+
+&#39;use strict&#39;;
+
+module.exports = function (coolie) {
+    // coolie 配置
+    coolie.config({
+        // 是否在构建之前清空目标目录
+        clean: true,
+
+        // 目标配置
+        dest: {
+            // 目标目录，相对于当前文件
+            dirname: &#39;../webroot-pro/&#39;,
+            // 目标根域
+            host: &#39;&#39;,
+            // 版本号长度
+            versionLength: 32
+        },
+
+        // js 构建
+        js: {
+            // 入口模块，相对于当前文件
+            main: [
+                // 支持 glob 语法
+                //【1】
+                &#39;index.js&#39;
+            ],
+            // coolie-config.js 路径，相对于当前文件
+            //【2】
+            &#39;coolie-config.js&#39;: &#39;coolie-config.js&#39;,
+            // js 文件保存目录，相对于 dest.dirname
+            dest: &#39;./static/js/&#39;,
+            // 分块配置
+            chunk: []
+        },
+
+        // html 构建
+        html: {
+            // html 文件，相对于当前文件
+            src: [
+                // 支持 glob 语法
+                //【3】
+                &#39;index.html&#39;
+            ],
+            // 是否压缩
+            minify: true
+        },
+
+        // css 构建
+        css: {
+            // css 文件保存目录，相对于 dest.dirname
+            dest: &#39;./static/css/&#39;,
+            // css 压缩配置
+            minify: {
+                compatibility: &#39;ie7&#39;
+            }
+        },
+
+        // 资源
+        resource: {
+            // 资源保存目录，相对于 dest.dirname
+            dest: &#39;./static/res/&#39;,
+            // 是否压缩
+            minify: true
+        },
+
+        // 原样复制文件，相对于当前文件
+        copy: [
+            // 支持 glob 语法
+            //【4】
+            //&#39;./favicon.ico&#39;,
+            //&#39;./robots.txt&#39;
+        ]
+    });
+
+    // 使用 coolie 中间件
+    // coolie.use(require(&#39;coolie-*&#39;));
+
+    // 自定义 coolie 中间件
+    //coolie.use(function (options) {
+    //    // do sth.
+    //    return options;
+    //});
+};
+</code></pre><ul>
+<li>【1】：修改了入口模块路径为<code>index.js</code></li>
+<li>【2】：修改了模块加载器配置文件路径为<code>coolie-config.js</code></li>
+<li>【3】：修改了 html 路径为<code>index.html</code></li>
+<li>【4】：取消了复制文件路径</li>
+</ul>
+<h3 id="heading-3-5" class="heading heading-h2"><a href="#3-5" class="heading-link"><span class="heading-index">3.5</span><span class="heading-text">前端构建</span></a></h3><p>执行前端构建：</p>
+<pre><code>➜  coolie build
+
+┌──────────────────────────────┐
+│ coolie@2.0.0                 │
+│ 前端工程化构建工具           │
+│ 官网：https://coolie.ydr.me/ │
+└──────────────────────────────┘
+
+
+            step 1/6  &gt;&gt;  parse coolie-cli profile
+       coolie config  &gt;&gt;  /coolie-demo8/webroot-dev/coolie.config.js
+         src dirname  &gt;&gt;  /coolie-demo8/webroot-dev
+        dest dirname  &gt;&gt;  /coolie-demo8/webroot-pro/
+
+            step 2/6  &gt;&gt;  copy files
+          copy files  &gt;&gt;  no files are copied
+
+            step 3/6  &gt;&gt;  build main modules
+        parse module  &gt;&gt;  1 modules parsed
+          build main  &gt;&gt;  will build 1 main modules
+                 1/1  &gt;&gt;  /index.js
+
+            step 4/6  &gt;&gt;  generate coolie.js profile
+    coolie-config.js  &gt;&gt;  mainModulesDir: &quot;/static/js/main/&quot;
+    coolie-config.js  &gt;&gt;  asyncModulesDir: &quot;../async/&quot;
+    coolie-config.js  &gt;&gt;  chunkModulesDir: &quot;../chunk/&quot;
+    coolie-config.js  &gt;&gt;  callbacks: 0
+    coolie-config.js  &gt;&gt;  ../webroot-pro/static/js/334e1ea3301b33071eb3c5c1a510fd2d.js
+
+            step 5/6  &gt;&gt;  build htmls
+                 1/1  &gt;&gt;  /index.html
+
+            step 6/6  &gt;&gt;  generate coolie map
+          coolie map  &gt;&gt;  ../webroot-pro/coolie-map.json
+
+       build success  &gt;&gt;  elapsed 585ms, at 2016-05-28 21:57:49.934
+</code></pre><p>从构建日志上也可以看出，构建了哪些模块。</p>
+<h3 id="heading-3-6" class="heading heading-h2"><a href="#3-6" class="heading-link"><span class="heading-index">3.6</span><span class="heading-text">前端构建后运行</span></a></h3><p>切换到 webroot-pro 目录，执行 <a href="https://www.npmjs.com/package/sts">sts</a>执行：</p>
+<pre><code>➜  cd ../webroot-pro
+➜  sts
+                 sts &gt;&gt; A static server is running.
+                open &gt;&gt; http://192.168.0.176:60786
+</code></pre><p><img src="https://dn-fed.qbox.me/@/res/20160126211803457240331463 =681x329" alt=""></p>
+<ul>
+<li>主要区别是在控制台，加载时间从原来的 93ms 缩减到 16ms</li>
+<li>界面上显示正常</li>
+</ul>
+<h3 id="heading-3-7" class="heading heading-h2"><a href="#3-7" class="heading-link"><span class="heading-index">3.7</span><span class="heading-text">分析构建结果</span></a></h3><h4 id="heading-3-7-1" class="heading heading-h3"><a href="#3-7-1" class="heading-link"><span class="heading-index">3.7.1</span><span class="heading-text">coolie-map.json</span></a></h4><p>首先看看构建之后的 coolie-map.json（<a href="/introduction/resource-relationship-map.md">资源关系解读</a>）:</p>
+<pre><code>{
+  &quot;/index.html&quot;: {
+    &quot;main&quot;: [
+      {
+        &quot;src&quot;: &quot;../webroot-dev/index.js&quot;,
+        &quot;dest&quot;: &quot;/static/js/main/664c0ade7b31b0bafe89a6fe8685b2e1.js&quot;,
+        &quot;deps&quot;: [
+          &quot;../webroot-dev/style.css&quot;,
+          &quot;../webroot-dev/template.html&quot;,
+          &quot;../webroot-dev/coolie.png&quot;
+        ]
+      }
+    ],
+    &quot;js&quot;: [
+      {
+        &quot;dest&quot;: &quot;/static/js/0996319be2c4f9517575b54dcc4af897.js&quot;,
+        &quot;deps&quot;: [
+          &quot;../webroot-dev/node_modules/coolie.js/coolie.js&quot;
+        ]
+      }
+    ],
+    &quot;css&quot;: [],
+    &quot;res&quot;: []
+  }
+}
+</code></pre><h4 id="heading-3-7-2" class="heading heading-h3"><a href="#3-7-2" class="heading-link"><span class="heading-index">3.7.2</span><span class="heading-text">index.html</span></a></h4><p><code>index.html</code>页面引用了<code>index.js</code>模块，<br>并且该模块构建之后的文件名为<code>664c0ade7b31b0bafe89a6fe8685b2e1.js</code>，<br>该入口模块引用了<code>style.css</code>、<code>template.html</code>和<code>coolie.png</code>（图片是在 style.css 里引用的）三个模块。</p>
+<p>我们来看下入口模块<code>664c0ade7b31b0bafe89a6fe8685b2e1.js</code>的内容：</p>
+<pre><code>/*coolie built*/
+define(&quot;0&quot;,[&quot;1&quot;,&quot;2&quot;],function(e,n,d){e(&quot;1&quot;);document.getElementById(&quot;demo&quot;).innerHTML=e(&quot;2&quot;)});
+define(&quot;1&quot;,[],function(){return coolie.importStyle(&quot;body{background:url(/static/res/7d9bbb425d679ca6c75f1cbbc66785fa.png);color:#AF00FF;font-size:60px}&quot;)});
+define(&quot;2&quot;,[],function(){return&quot;&lt;h1&gt;Hello coolie&lt;/h1&gt;&quot;});
+</code></pre><p>从上可知模块 ID 的对应关系：</p>
+<pre><code>index.js =&gt; 0
+style.css =&gt; 1
+template.html =&gt; 2
+coolie.png =&gt; /static/res/7d9bbb425d679ca6c75f1cbbc66785fa.png
+</code></pre><p>其中样式模块里使用了<code>coolie.importStyle</code>方法来自动加载样式。</p>
+<h2 id="heading-4" class="heading heading-h1"><a href="#4" class="heading-link"><span class="heading-index">4</span><span class="heading-text">github</span></a></h2><p><a href="https://github.com/cooliejs/coolie-demo8/">https://github.com/cooliejs/coolie-demo8/</a></p>
