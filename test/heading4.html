@@ -75,7 +75,7 @@ coolie.config({
         coolie
         data-config=&quot;/coolie-config.js&quot;
         data-main=&quot;index.js&quot;&gt;&lt;/script&gt;
-</code></pre><h3 id="heading-3-3" class="heading heading-h2"><a href="#3-3" class="heading-link"><span class="heading-index">3.3</span><span class="heading-text">前端构建前运行</span></a></h3><p>在<code>src</code>目录下，使用<a href="https://www.npmjs.com/package/sts" target="blank">sts</a>执行：</p><pre><code>➜  sts
+</code></pre><h3 id="heading-3-3" class="heading heading-h2"><a href="#3-3" class="heading-link"><span class="heading-index">3.3</span><span class="heading-text">前端构建前运行</span></a></h3><p>在<code>src</code>目录下，使用<a href="https://www.npmjs.com/package/sts" target="blank"><img class="favicon" width="16" height="16" src="https://f.ydr.me/https://www.npmjs.com/package/sts">sts</a>执行：</p><pre><code>➜  sts
                  sts &gt;&gt; A static server is running.
                 open &gt;&gt; http://192.168.0.156:60880
 </code></pre><p><img src="https://dn-fed.qbox.me/&lt;a href=" data-mention="/res/20160126210848618401171152" class="mention">@/res/20160126210848618401171152"</a> width="720" height="346"&gt;</p><h3 id="heading-3-4" class="heading heading-h2"><a href="#3-4" class="heading-link"><span class="heading-index">3.4</span><span class="heading-text">前端构建配置</span></a></h3><p>使用命令生成前端构建配置文件：</p><pre><code>➜  coolie init -c
@@ -225,7 +225,7 @@ module.exports = function (coolie) {
           coolie map  &gt;&gt;  ../webroot-pro/coolie-map.json
 
        build success  &gt;&gt;  elapsed 585ms, at 2016-05-28 21:57:49.934
-</code></pre><p>从构建日志上也可以看出，构建了哪些模块。</p><h3 id="heading-3-6" class="heading heading-h2"><a href="#3-6" class="heading-link"><span class="heading-index">3.6</span><span class="heading-text">前端构建后运行</span></a></h3><p>切换到 webroot-pro 目录，执行 <a href="https://www.npmjs.com/package/sts" target="blank">sts</a>执行：</p><pre><code>➜  cd ../webroot-pro
+</code></pre><p>从构建日志上也可以看出，构建了哪些模块。</p><h3 id="heading-3-6" class="heading heading-h2"><a href="#3-6" class="heading-link"><span class="heading-index">3.6</span><span class="heading-text">前端构建后运行</span></a></h3><p>切换到 webroot-pro 目录，执行 <a href="https://www.npmjs.com/package/sts" target="blank"><img class="favicon" width="16" height="16" src="https://f.ydr.me/https://www.npmjs.com/package/sts">sts</a>执行：</p><pre><code>➜  cd ../webroot-pro
 ➜  sts
                  sts &gt;&gt; A static server is running.
                 open &gt;&gt; http://192.168.0.176:60786
@@ -268,4 +268,4 @@ define(&quot;2&quot;,[],function(){return&quot;&lt;h1&gt;Hello coolie&lt;/h1&gt;
 style.css =&gt; 1
 template.html =&gt; 2
 coolie.png =&gt; /static/res/7d9bbb425d679ca6c75f1cbbc66785fa.png
-</code></pre><p>其中样式模块里使用了<code>coolie.importStyle</code>方法来自动加载样式。</p><h2 id="heading-4" class="heading heading-h1"><a href="#4" class="heading-link"><span class="heading-index">4</span><span class="heading-text">github</span></a></h2><p><a href="https://github.com/cooliejs/coolie-demo8/" target="blank">https://github.com/cooliejs/coolie-demo8/</a></p>
+</code></pre><p>其中样式模块里使用了<code>coolie.importStyle</code>方法来自动加载样式。</p><h2 id="heading-4" class="heading heading-h1"><a href="#4" class="heading-link"><span class="heading-index">4</span><span class="heading-text">github</span></a></h2><p><a href="https://github.com/cooliejs/coolie-demo8/" target="blank"><img class="favicon" width="16" height="16" src="https://f.ydr.me/https://github.com/cooliejs/coolie-demo8/">https://github.com/cooliejs/coolie-demo8/</a></p>

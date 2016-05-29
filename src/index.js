@@ -136,8 +136,6 @@ var SafeMarkdown = Markdown.extend({
         //   text: "text",
         //   children: [...]
         // }]
-        the[_tocList] = [];
-        the[_mentionList] = [];
         the[_heading]();
         the[_paragraph]();
         the[_link]();
@@ -165,10 +163,23 @@ var SafeMarkdown = Markdown.extend({
      */
     render: function (markdown) {
         var the = this;
+
+        the[_headingTocList] = [];
+        the[_mentionList] = [];
+        the[_headingLevelIdList] = [0, 0, 0, 0, 0, 0];
+        the[_headingLevelIndentList] = [0, 0, 0, 0, 0, 0];
+        the[_headingTocParentList] =  [{
+            children: the[_headingTocList]
+        }];
+        the[_lastHeadingLevel] = 0;
+        the[_lastHeadingLevelIndex] = -1;
+        the[_headingStartIndent] = -1;
+
+
         var content = SafeMarkdown.parent.render(the, markdown);
 
         return {
-            toc: the[_renderToc](the[_tocList]),
+            toc: the[_renderToc](the[_headingTocList]),
             mentionList: the[_mentionList],
             content: the[_xss].process(content)
         };
@@ -176,12 +187,18 @@ var SafeMarkdown = Markdown.extend({
 });
 var _options = SafeMarkdown.sole();
 var _heading = SafeMarkdown.sole();
-var _tocList = SafeMarkdown.sole();
+var _headingTocList = SafeMarkdown.sole();
 var _renderToc = SafeMarkdown.sole();
 var _mentionList = SafeMarkdown.sole();
 var _paragraph = SafeMarkdown.sole();
 var _link = SafeMarkdown.sole();
 var _xss = SafeMarkdown.sole();
+var _headingLevelIdList = SafeMarkdown.sole();
+var _headingLevelIndentList = SafeMarkdown.sole();
+var _headingTocParentList = SafeMarkdown.sole();
+var _lastHeadingLevel = SafeMarkdown.sole();
+var _lastHeadingLevelIndex = SafeMarkdown.sole();
+var _headingStartIndent = SafeMarkdown.sole();
 
 
 SafeMarkdown.method(_renderToc, function (tocList) {
@@ -237,21 +254,6 @@ SafeMarkdown.method(_heading, function () {
     var headingLinkClass = headingClass + '-link';
     var headingIndexClass = headingClass + '-index';
     var headingTextClass = headingClass + '-text';
-    var index = 0;
-    var treeIndex = [0, 0, 0, 0, 0, 0];
-    var lastLevel = 0;
-    var lastLevelIndex = -1;
-    // 每一级向前缩进值
-    var levelIndentList = [0, 0, 0, 0, 0, 0];
-    var tocParentList = [{
-        children: the[_tocList]
-    }];
-    var startIndent = -1;
-
-    // 1 ======> 1
-    // 1 ======> 2
-    //   2 ====> 2.1
-    //   2 ====> 2.2
 
     the.renderer('heading', function (headingText, level) {
         var levelIndex = level - 1;
@@ -259,21 +261,26 @@ SafeMarkdown.method(_heading, function () {
         var fixedLevelIndex = levelIndex;
         var indent = 0;
         var tocItem = {};
+        var headingLevelIdList = the[_headingLevelIdList];
+        // 每一级向前缩进值
+        var headingLevelIndentList = the[_headingLevelIndentList];
+        var headingTocParentList =the[_headingTocParentList];
 
-        if (startIndent === -1) {
-            startIndent = level - 1;
+
+        if (the[_headingStartIndent] === -1) {
+            the[_headingStartIndent] = level - 1;
         }
 
         // 同级 h1 => h1
-        if (lastLevel === level) {
+        if (the[_lastHeadingLevel] === level) {
             if (headingIndentable) {
-                fixedLevel = lastLevelIndex + 1;
+                fixedLevel = the[_lastHeadingLevelIndex] + 1;
             }
         }
         // 返回 h2 => h1
-        else if (lastLevel > level) {
-            treeIndex[lastLevelIndex] = 0;
-            array.each(levelIndentList.slice(0, level), function (index, value) {
+        else if (the[_lastHeadingLevel] > level) {
+            headingLevelIdList[the[_lastHeadingLevelIndex]] = 0;
+            array.each(headingLevelIndentList.slice(0, level), function (index, value) {
                 indent += value;
             });
 
@@ -283,8 +290,8 @@ SafeMarkdown.method(_heading, function () {
         }
         // 进入 h1 => h2
         else {
-            levelIndentList[fixedLevelIndex] = level - lastLevel - 1;
-            array.each(levelIndentList.slice(0, level), function (index, value) {
+            headingLevelIndentList[fixedLevelIndex] = level - the[_lastHeadingLevel] - 1;
+            array.each(headingLevelIndentList.slice(0, level), function (index, value) {
                 indent += value;
             });
 
@@ -294,9 +301,9 @@ SafeMarkdown.method(_heading, function () {
         }
 
         fixedLevelIndex = fixedLevel - 1;
-        treeIndex[fixedLevelIndex]++;
+        headingLevelIdList[fixedLevelIndex]++;
 
-        var indexes = treeIndex.slice(headingIndentable ? 0 : startIndent, fixedLevel);
+        var indexes = headingLevelIdList.slice(headingIndentable ? 0 : the[_headingStartIndent], fixedLevel);
         var indexesText = indexes.join(options.headingIndexSplit);
         var id = indexes.join('-');
         var html = '';
@@ -317,11 +324,10 @@ SafeMarkdown.method(_heading, function () {
         tocItem.level = fixedLevel;
         tocItem.id = id;
         tocItem.children = [];
-        index++;
-        lastLevel = level;
-        lastLevelIndex = fixedLevelIndex;
-        tocParentList[levelIndex - indent].children.push(tocItem);
-        tocParentList[levelIndex - indent + 1] = tocItem;
+        the[_lastHeadingLevel] = level;
+        the[_lastHeadingLevelIndex] = fixedLevelIndex;
+        headingTocParentList[levelIndex - indent].children.push(tocItem);
+        headingTocParentList[levelIndex - indent + 1] = tocItem;
 
         return html;
     });
