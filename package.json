@@ -1,7 +1,7 @@
 {
   "name": "blear.classes.safe-markdown",
   "version": "1.0.0",
-  "description": "描述",
+  "description": "Markdown 解析与【安全】渲染，适用于 Node 端",
   "scripts": {
     "live": "browser-sync start --config bs-config.js",
     "test-travis": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly",
@@ -40,7 +40,7 @@
   "dependencies": {
     "blear.classes.class": "^1.0.7",
     "blear.classes.events": "^1.0.4",
-    "blear.classes.markdown": "^1.0.2",
+    "blear.classes.markdown": "^1.0.6",
     "blear.polyfills.array": "^1.0.3",
     "blear.polyfills.date": "^1.0.1",
     "blear.polyfills.function": "^1.0.1",
@@ -54,10 +54,15 @@
     "blear.utils.function": "^1.0.1",
     "blear.utils.number": "^1.0.1",
     "blear.utils.object": "^1.0.2",
+    "blear.utils.path": "^1.0.4",
+    "blear.utils.querystring": "^1.0.3",
     "blear.utils.random": "^1.0.1",
     "blear.utils.string": "^1.0.3",
     "blear.utils.time": "^1.0.1",
-    "blear.utils.typeis": "^1.0.2"
+    "blear.utils.typeis": "^1.0.2",
+    "blear.utils.uri": "^1.0.1",
+    "blear.utils.url": "^1.0.4",
+    "xss": "^0.2.13"
   },
   "peerDependencies": {},
   "devDependencies": {

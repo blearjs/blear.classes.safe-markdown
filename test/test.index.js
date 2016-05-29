@@ -11,53 +11,54 @@ var fs = require('fs');
 var path = require('path');
 var expect = require('chai').expect;
 var SafeMarkdown = require('../src/index.js');
+var style = '<style>' +
+    '.mention{background: #f6d734;margin:0 10px;}' +
+    '.toc-index{background: #000;color:#fff;margin-right:20px;}' +
+    '.heading-index{background: #000;color:#fff;margin-right:20px;}' +
+    '</style>\n\n';
 
 
 describe('测试文件', function () {
-    // it('heading base', function () {
-    //     var sm = new SafeMarkdown();
-    //     var filename = 'heading1';
-    //     var rd = sm.render(fs.readFileSync(path.join(__dirname, filename + '.md'), 'utf8'));
-    //     var style = '<style>.heading-index{background: #000;color:#fff;margin-right:20px;}</style>';
-    //
-    //     fs.writeFileSync(path.join(__dirname, filename + '.html'), style + rd.content, 'utf8');
-    // });
+    it('heading base', function () {
+        var sm = new SafeMarkdown();
+        var filename = 'heading1';
+        var rd = sm.render(fs.readFileSync(path.join(__dirname, filename + '.md'), 'utf8'));
+
+        fs.writeFileSync(path.join(__dirname, filename + '.html'), style +rd.toc + rd.content, 'utf8');
+    });
 
 
-    // it('heading fixed', function () {
-    //     var sm = new SafeMarkdown({
-    //         headingFixed: true
-    //     });
-    //     var filename = 'heading2';
-    //     var rd = sm.render(fs.readFileSync(path.join(__dirname, filename + '.md'), 'utf8'));
-    //     var style = '<style>.heading-index{background: #000;color:#fff;margin-right:20px;}</style>';
-    //
-    //     fs.writeFileSync(path.join(__dirname, filename + '.html'), style + rd.content, 'utf8');
-    // });
+    it('headingIndentable: true', function () {
+        var sm = new SafeMarkdown({
+            headingIndentable: true
+        });
+        var filename = 'heading2';
+        var rd = sm.render(fs.readFileSync(path.join(__dirname, filename + '.md'), 'utf8'));
+
+        fs.writeFileSync(path.join(__dirname, filename + '.html'), style +rd.toc + rd.content, 'utf8');
+    });
 
 
-    // it('heading nofixed', function () {
-    //     var sm = new SafeMarkdown({
-    //         headingFixed: false
-    //     });
-    //     var filename = 'heading3';
-    //     var rd = sm.render(fs.readFileSync(path.join(__dirname, filename + '.md'), 'utf8'));
-    //     var style = '<style>.heading-index{background: #000;color:#fff;margin-right:20px;}</style>';
-    //
-    //     fs.writeFileSync(path.join(__dirname, filename + '.html'), style + rd.content, 'utf8');
-    // });
+    it('headingIndentable: false', function () {
+        var sm = new SafeMarkdown({
+            headingIndentable: false
+        });
+        var filename = 'heading3';
+        var rd = sm.render(fs.readFileSync(path.join(__dirname, filename + '.md'), 'utf8'));
+
+        fs.writeFileSync(path.join(__dirname, filename + '.html'), style + rd.toc +rd.content, 'utf8');
+    });
 
 
-    // it('heading hadingMinLevel', function () {
-    //     var sm = new SafeMarkdown({
-    //         hadingMinLevel: 5
-    //     });
-    //     var filename = 'heading3';
-    //     var rd = sm.render(fs.readFileSync(path.join(__dirname, filename + '.md'), 'utf8'));
-    //     var style = '<style>.heading-index{background: #000;color:#fff;margin-right:20px;}</style>';
-    //
-    //     fs.writeFileSync(path.join(__dirname, filename + '.html'), style + rd.content, 'utf8');
-    // });
+    it('heading hadingMinLevel', function () {
+        var sm = new SafeMarkdown({
+            hadingMinLevel: 5
+        });
+        var filename = 'heading3';
+        var rd = sm.render(fs.readFileSync(path.join(__dirname, filename + '.md'), 'utf8'));
+
+        fs.writeFileSync(path.join(__dirname, filename + '.html'), style + rd.toc + rd.content, 'utf8');
+    });
 
 
     it('heading toc', function () {
@@ -66,7 +67,42 @@ describe('测试文件', function () {
         });
         var filename = 'heading4';
         var rd = sm.render(fs.readFileSync(path.join(__dirname, filename + '.md'), 'utf8'));
-        var style = '<style>.heading-index{background: #000;color:#fff;margin-right:20px;}</style>';
+
+        fs.writeFileSync(path.join(__dirname, filename + '.html'), style + rd.toc + rd.content, 'utf8');
+    });
+
+
+    it('mentionable', function () {
+        var sm = new SafeMarkdown({
+            mentionable: true
+        });
+        var filename = 'mention1';
+        var rd = sm.render(fs.readFileSync(path.join(__dirname, filename + '.md'), 'utf8'));
+
+        fs.writeFileSync(path.join(__dirname, filename + '.html'), style + rd.toc + rd.content + rd.mentionList, 'utf8');
+    });
+
+
+    it('trustedDomain', function () {
+        var sm = new SafeMarkdown({
+            trustedDomains: [
+                'a.com',
+                'b.com'
+            ]
+        });
+        var filename = 'link1';
+        var rd = sm.render(fs.readFileSync(path.join(__dirname, filename + '.md'), 'utf8'));
+
+        fs.writeFileSync(path.join(__dirname, filename + '.html'), style + rd.toc + rd.content, 'utf8');
+    });
+
+
+    it('xssable', function () {
+        var sm = new SafeMarkdown({
+            xssable: true
+        });
+        var filename = 'xss1';
+        var rd = sm.render(fs.readFileSync(path.join(__dirname, filename + '.md'), 'utf8'));
 
         fs.writeFileSync(path.join(__dirname, filename + '.html'), style + rd.toc + rd.content, 'utf8');
     });
