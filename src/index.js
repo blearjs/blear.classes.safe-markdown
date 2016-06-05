@@ -335,7 +335,7 @@ SafeMarkdown.method(_heading, function () {
 
         displayLevel = Math.min(displayLevel, 6);
 
-        html += '<h' + displayLevel + ' id="' + flag + '" class="' + headingClass + ' ' + headingClass + '-' + fixedLevel + '">';
+        html += '<h' + displayLevel + ' id="' + flag + '" class="' + headingClass + ' ' + headingClass + '_' + fixedLevel + '">';
         html += headingLinkable ? '<a href="#' + flag + '" class="' + headingLinkClass + '">' : '';
         html += options.headingIndexable ? '<span class="' + headingIndexClass + '">' + indexesText + '</span>' : '';
         html += '<span class="' + headingTextClass + '">' + headingText + "</span>";
