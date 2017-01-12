@@ -141,19 +141,19 @@ var SafeMarkdown = Markdown.extend({
         the[_paragraph]();
         the[_link]();
         the[_xss] = options.xssable ? new xss.FilterXSS({
-            whiteList: options.whiteList,
-            stripIgnoreTagBody: ['script'],
-            onIgnoreTagAttr: function (tag, name, value, isWhiteAttr) {
-                if (name.slice(0, 5) === 'data-' || name === 'id' || name === 'class') {
-                    // 通过内置的escapeAttrValue函数来对属性值进行转义
-                    return name + '="' + xss.escapeAttrValue(value) + '"';
+                whiteList: options.whiteList,
+                stripIgnoreTagBody: ['script'],
+                onIgnoreTagAttr: function (tag, name, value, isWhiteAttr) {
+                    if (name.slice(0, 5) === 'data-' || name === 'id' || name === 'class') {
+                        // 通过内置的escapeAttrValue函数来对属性值进行转义
+                        return name + '="' + xss.escapeAttrValue(value) + '"';
+                    }
                 }
-            }
-        }) : {
-            process: function (html) {
-                return html;
-            }
-        };
+            }) : {
+                process: function (html) {
+                    return html;
+                }
+            };
     },
 
 
@@ -177,7 +177,7 @@ var SafeMarkdown = Markdown.extend({
         the[_headingStartIndent] = -1;
 
 
-        var content = SafeMarkdown.parent.render(the, markdown);
+        var content = SafeMarkdown.invoke('render', the, markdown);
 
         return {
             toc: the[_renderToc](the[_headingTocList]),
