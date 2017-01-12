@@ -200,7 +200,7 @@ var _headingTocParentList = SafeMarkdown.sole();
 var _lastHeadingLevel = SafeMarkdown.sole();
 var _lastHeadingLevelIndex = SafeMarkdown.sole();
 var _headingStartIndent = SafeMarkdown.sole();
-
+var pro = SafeMarkdown.prototype;
 
 var storeGen = function () {
     var store = {};
@@ -220,8 +220,7 @@ var storeGen = function () {
     };
 };
 
-
-SafeMarkdown.method(_renderToc, function (tocList) {
+pro[_renderToc] = function (tocList) {
     var the = this;
     var options = the[_options];
     var tocClass = options.tocClass;
@@ -264,10 +263,9 @@ SafeMarkdown.method(_renderToc, function (tocList) {
     }
 
     return before + main + after;
-});
+};
 
-
-SafeMarkdown.method(_heading, function () {
+pro[_heading] = function () {
     var the = this;
     var options = the[_options];
     var headingClass = options.headingClass;
@@ -354,10 +352,9 @@ SafeMarkdown.method(_heading, function () {
 
         return html;
     });
-});
+};
 
-
-SafeMarkdown.method(_paragraph, function () {
+pro[_paragraph] = function () {
     var the = this;
     var options = the[_options];
     var nameRegExpString = options.mentionNameRegExp.toString().slice(1, -1);
@@ -396,10 +393,9 @@ SafeMarkdown.method(_paragraph, function () {
 
         return before + text + after;
     });
-});
+};
 
-
-SafeMarkdown.method(_link, function () {
+pro[_link] = function () {
     var the = this;
     var options = the[_options];
     var reHash = /^#/;
@@ -440,7 +436,7 @@ SafeMarkdown.method(_link, function () {
             '</a>'
         );
     });
-});
+};
 
 SafeMarkdown.defaults = defaults;
 module.exports = SafeMarkdown;
