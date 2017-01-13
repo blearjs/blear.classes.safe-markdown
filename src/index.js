@@ -286,7 +286,6 @@ pro[_heading] = function () {
         var headingLevelIndentList = the[_headingLevelIndentList];
         var headingTocParentList = the[_headingTocParentList];
 
-
         if (the[_headingStartIndent] === -1) {
             the[_headingStartIndent] = level - 1;
         }
@@ -299,7 +298,17 @@ pro[_heading] = function () {
         }
         // 返回 h2 => h1
         else if (the[_lastHeadingLevel] > level) {
-            headingLevelIdList[the[_lastHeadingLevelIndex]] = 0;
+            var lastLevelIndex = the[_lastHeadingLevelIndex];
+
+            // 3.2.3.2
+            //     ^ ^
+            //     需要把相差的这两位都置为 0
+            // 3.3
+            while (lastLevelIndex !== levelIndex) {
+                headingLevelIdList[lastLevelIndex] = 0;
+                lastLevelIndex--;
+            }
+
             array.each(headingLevelIndentList.slice(0, level), function (index, value) {
                 indent += value;
             });

@@ -73,6 +73,16 @@ describe('测试文件', function () {
         fs.writeFileSync(path.join(__dirname, filename + '.html'), style + rd.toc + rd.content, 'utf8');
     });
 
+    it('heading toc2', function () {
+        var sm = new SafeMarkdown({
+            hadingMinLevel: 2
+        });
+        var filename = 'heading5';
+        var rd = sm.render(fs.readFileSync(path.join(__dirname, filename + '.md'), 'utf8'));
+
+        fs.writeFileSync(path.join(__dirname, filename + '.html'), style + rd.toc + rd.content, 'utf8');
+    });
+
 
     it('mentionable', function () {
         var sm = new SafeMarkdown({
