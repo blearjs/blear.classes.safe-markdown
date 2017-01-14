@@ -1,6 +1,6 @@
 {
   "name": "blear.classes.safe-markdown",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Markdown 解析与【安全】渲染，适用于 Node 端",
   "scripts": {
     "live": "browser-sync start --config bs-config.js",
@@ -38,7 +38,7 @@
     "url": "https://github.com/blearjs/blear.classes.safe-markdown/issues"
   },
   "dependencies": {
-    "blear.classes.markdown": "^1.0.7",
+    "blear.classes.markdown": "^1.1.3",
     "blear.utils.array": "^1.0.12",
     "blear.utils.object": "^1.0.11",
     "blear.utils.random": "^1.0.2",

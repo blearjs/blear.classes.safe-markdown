@@ -13,7 +13,7 @@ var url = require('blear.utils.url');
 var random = require('blear.utils.random');
 var xss = require('xss');
 
-
+var autoLinkDomainRE = /^(?:[\w]+:)?\/\/([^\/]*)/;
 var defaults = object.assign({}, Markdown.defaults, {
     /**
      * 是否显示 heading 链接
@@ -61,7 +61,7 @@ var defaults = object.assign({}, Markdown.defaults, {
      * 是否解析提及信息
      * @type Boolean
      */
-    mentionable: true,
+    mention: true,
 
     /**
      * 提及的名称正则
@@ -100,10 +100,16 @@ var defaults = object.assign({}, Markdown.defaults, {
     linkTrustedDomains: [],
 
     /**
+     * 自动链接自动缩短网址（只显示网址域名）
+     * @type Boolean
+     */
+    linkAutoShort: true,
+
+    /**
      * 是否输出 link 的 favicon
      * @type Boolean
      */
-    linkFaviconable: true,
+    linkFavicon: true,
 
     /**
      * link favicon 的图标 class
@@ -123,8 +129,6 @@ var defaults = object.assign({}, Markdown.defaults, {
      */
     whiteList: object.assign(true, {}, xss.whiteList)
 });
-
-
 var SafeMarkdown = Markdown.extend({
     constructor: function (options) {
         var the = this;
@@ -381,7 +385,7 @@ pro[_paragraph] = function () {
         var after = '</p>';
         var store = storeGen();
 
-        if (options.mentionable) {
+        if (options.mention) {
             // 不处理标签里的属性相关
             text = text.replace(reHTML, store.save);
             text = text.replace(reMention, function (source, name) {
@@ -418,14 +422,21 @@ pro[_link] = function () {
 
     var reExcludeDomain = new RegExp('(^' + regExpList.join('|') + '$)');
 
-    the.renderer('link', function (href, title, text) {
+    the.renderer('link', function (href, title, text, auto) {
         var blank = false;
         var nofollow = false;
         var hostname;
+        var port;
+        var parseRet;
 
         if (!reHash.test(href) && !reJavascript.test(href)) {
-            var ret = url.parse(href);
-            hostname = ret.hostname;
+            if (href.slice(0, 1) !== '/') {
+                href = '//' + href;
+            }
+
+            parseRet = url.parse(href);
+            hostname = parseRet.hostname;
+            port = parseRet.port;
 
             if (hostname && !reExcludeDomain.test(hostname)) {
                 nofollow = true;
@@ -433,15 +444,22 @@ pro[_link] = function () {
             }
         }
 
+        if (auto && parseRet && options.linkAutoShort) {
+            text = hostname + (port ? ':' : '') + port;
+        }
+
         return ''.concat(
+            options.linkFavicon && hostname ?
+                '<img class="' + options.linkFaviconClass + '" width="16" height="16"' +
+                ' src="https://f.ydr.me/' + href + '">' :
+                '',
             '<a',
             ' href="' + href + '"',
             title ? ' title="' + title + '"' : '',
             nofollow ? ' rel="nofollow"' : '',
             blank ? ' target="blank"' : '',
             '>',
-            options.linkFaviconable && hostname ? '<img class="' + options.linkFaviconClass + '" width="16" height="16" src="https://f.ydr.me/' + href + '">' : '',
-            text || href,
+            text,
             '</a>'
         );
     });

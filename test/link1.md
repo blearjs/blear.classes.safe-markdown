@@ -1,7 +1,10 @@
-<http://a.com>
-[aa.com](aa.com)
-[b.com](b.com)
-[c.b.com](c.b.com)
-[d.c.b.com/dd/ee](d.c.b.com/dd/ee)
-[c.com](c.com)
+<http://a.com:1999>
+
+<http://a.com/de/d/d/d/?http://dd.xx#http://c.cc>
+
+[自动协议](//aa.com)
+
+[本域路径](/b.com)
+
+[本域路径](c.b.com)
 
