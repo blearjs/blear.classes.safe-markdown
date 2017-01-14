@@ -430,11 +430,13 @@ pro[_link] = function () {
         var parseRet;
 
         if (!reHash.test(href) && !reJavascript.test(href)) {
-            if (href.slice(0, 1) !== '/') {
+            parseRet = url.parse(href);
+
+            if (!parseRet.protocol && href.slice(0, 1) !== '/') {
                 href = '//' + href;
+                parseRet = url.parse(href);
             }
 
-            parseRet = url.parse(href);
             hostname = parseRet.hostname;
             port = parseRet.port;
 
