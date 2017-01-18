@@ -1,6 +1,6 @@
 {
   "name": "blear.classes.safe-markdown",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Markdown 解析与【安全】渲染，适用于 Node 端",
   "scripts": {
     "live": "browser-sync start --config bs-config.js",

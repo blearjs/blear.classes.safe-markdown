@@ -413,6 +413,8 @@ pro[_link] = function () {
     var options = the[_options];
     var reHash = /^#/;
     var reJavascript = /^javascript:/i;
+    var reMailTo = /^mailto:/i;
+    var reMailDomain = /@(.*)$/;
     var linkTrustedDomains = options.linkTrustedDomains;
     var regExpList = [];
 
@@ -428,8 +430,13 @@ pro[_link] = function () {
         var hostname;
         var port;
         var parseRet;
+        var unescapeHref = string.unescapeHTML(href);
+        var faviconHref = href;
 
-        if (!reHash.test(href) && !reJavascript.test(href)) {
+        if (reMailTo.test(unescapeHref)) {
+            hostname = unescapeHref.match(reMailDomain)[1];
+            faviconHref = 'http://' + hostname;
+        } else if (!reHash.test(href) && !reJavascript.test(href)) {
             parseRet = url.parse(href);
 
             if (!parseRet.protocol && href.slice(0, 1) !== '/') {
@@ -453,7 +460,7 @@ pro[_link] = function () {
         return ''.concat(
             options.linkFavicon && hostname ?
                 '<img class="' + options.linkFaviconClass + '" width="16" height="16"' +
-                ' src="https://f.ydr.me/' + href + '">' :
+                ' src="https://f.ydr.me/' + faviconHref + '">' :
                 '',
             '<a',
             ' href="' + href + '"',
