@@ -414,7 +414,6 @@ pro[_link] = function () {
     var reHash = /^#/;
     var reJavascript = /^javascript:/i;
     var reMailTo = /^mailto:/i;
-    var reMailDomain = /@(.*)$/;
     var linkTrustedDomains = options.linkTrustedDomains;
     var regExpList = [];
 
@@ -430,12 +429,16 @@ pro[_link] = function () {
         var hostname;
         var port;
         var parseRet;
-        var unescapeHref = string.unescapeHTML(href);
         var faviconHref = href;
 
-        if (reMailTo.test(unescapeHref)) {
-            hostname = unescapeHref.match(reMailDomain)[1];
+        if (reMailTo.test(href)) {
+            hostname = href.match(/@(.*)$/)[1];
             faviconHref = 'http://' + hostname;
+
+            if(auto) {
+                // 如果是自动链接，则将文字全部编码成实体符
+                text = string.escapeHTML(text, true);
+            }
         } else if (!reHash.test(href) && !reJavascript.test(href)) {
             parseRet = url.parse(href);
 
