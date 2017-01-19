@@ -12,6 +12,7 @@ var string = require('blear.utils.string');
 var url = require('blear.utils.url');
 var random = require('blear.utils.random');
 var xss = require('xss');
+var path = require('blear.utils.path');
 
 var autoLinkDomainRE = /^(?:[\w]+:)?\/\/([^\/]*)/;
 var defaults = object.assign({}, Markdown.defaults, {
@@ -127,8 +128,10 @@ var defaults = object.assign({}, Markdown.defaults, {
      * 白名单
      * @type Object
      */
-    whiteList: object.assign(true, {}, xss.whiteList)
+    whiteList: object.assign(true, {}, xss.getDefaultWhiteList())
 });
+// console.log(xss.getDefaultWhiteList())
+// console.log(xss.getDefaultCSSWhiteList())
 var SafeMarkdown = Markdown.extend({
     constructor: function (options) {
         var the = this;
@@ -439,7 +442,7 @@ pro[_link] = function () {
                 // 如果是自动链接，则将文字全部编码成实体符
                 text = string.escapeHTML(text, true);
             }
-        } else if (!reHash.test(href) && !reJavascript.test(href)) {
+        } else if (path.isStatic(href)) {
             parseRet = url.parse(href);
 
             if (!parseRet.protocol && href.slice(0, 1) !== '/') {
